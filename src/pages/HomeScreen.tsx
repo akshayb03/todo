@@ -13,12 +13,30 @@ const tasks = [
     status: "ongoing",
     createdAt: 1719900000000,
     updatedAt: 1719900000000,
+    remTime: 0,
   },
 ];
 
 const HomeScreen = () => {
   const [taskList, setTaskList] = useState(tasks);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const isMobile = window.innerWidth < 768;
+
+  const formatRemainingTime = (ms: number) => {
+    if (isNaN(ms)) return "--";
+    const totalSeconds = Math.floor(ms / 1000);
+
+    const days = Math.floor(totalSeconds / (3600 * 24));
+    if (days > 0) return `${days} days`;
+
+    const hours = Math.floor(totalSeconds / 3600);
+    if (hours > 0) return `${hours} hrs`;
+
+    const minutes = Math.floor(totalSeconds / 60);
+    if (minutes > 0) return `${minutes} mins`;
+
+    return `${totalSeconds} sec`;
+  };
 
   const createTask = () => {
     setIsModalOpen(true);
@@ -49,7 +67,11 @@ const HomeScreen = () => {
         if (task.status === "ongoing" && Date.now() > task.deadline) {
           return { ...task, status: "failure" };
         }
-        return task;
+        return {
+          ...task,
+          remTime:
+            task.deadline - Date.now() > 0 ? task.deadline - Date.now() : 0,
+        };
       })
     );
   }, []);
@@ -61,10 +83,14 @@ const HomeScreen = () => {
           if (task.status === "ongoing" && Date.now() > task.deadline) {
             return { ...task, status: "failure" };
           }
-          return task;
+          return {
+            ...task,
+            remTime:
+              task.deadline - Date.now() > 0 ? task.deadline - Date.now() : 0,
+          };
         })
       );
-    }, 60000);
+    }, 1000);
 
     return () => clearInterval(interval);
   }, []);
@@ -73,8 +99,9 @@ const HomeScreen = () => {
     <div
       style={{
         width: "100vw",
-        height: "100vh",
+        minHeight: "100vh",
         backgroundColor: "#EEEFE0",
+        paddingBottom: isMobile ? 100 : 0,
       }}
     >
       <div
@@ -104,12 +131,15 @@ const HomeScreen = () => {
             display: "flex",
             width: "80%",
             justifyContent: "space-between",
+            flexWrap: "wrap",
+            gap: 16,
           }}
         >
           <div
             style={{
-              width: "30%",
-              height: 500,
+              flex: isMobile ? "1 1 100%" : "1 1 30%",
+              maxWidth: isMobile ? "100%" : "30%",
+              height: isMobile ? 300 : 500,
               border: "1px solid black",
               color: "black",
               overflowY: "auto",
@@ -148,6 +178,9 @@ const HomeScreen = () => {
                       <div>
                         <h3>{tasks.title}</h3>
                         <p style={{ fontSize: 12 }}>{tasks.description}</p>
+                        <p style={{ fontSize: 10, fontWeight: 600 }}>
+                          {formatRemainingTime(tasks.remTime)} remaining
+                        </p>
                       </div>
                       <div
                         style={{
@@ -187,8 +220,9 @@ const HomeScreen = () => {
           </div>
           <div
             style={{
-              width: "30%",
-              height: 500,
+              flex: isMobile ? "1 1 100%" : "1 1 30%",
+              maxWidth: isMobile ? "100%" : "30%",
+              height: isMobile ? 300 : 500,
               border: "1px solid black",
               color: "black",
               overflowY: "auto",
@@ -220,7 +254,7 @@ const HomeScreen = () => {
                         flexDirection: "row",
                         justifyContent: "space-between",
                         alignItems: "center",
-                        padding: 8,
+                        padding: 16,
                         marginBottom: 8,
                       }}
                     >
@@ -250,10 +284,11 @@ const HomeScreen = () => {
           </div>
           <div
             style={{
-              width: "30%",
+              flex: isMobile ? "1 1 100%" : "1 1 30%",
+              maxWidth: isMobile ? "100%" : "30%",
+              height: isMobile ? 300 : 500,
               border: "1px solid black",
               color: "black",
-              height: 500,
               overflowY: "auto",
             }}
           >
@@ -283,7 +318,7 @@ const HomeScreen = () => {
                         flexDirection: "row",
                         justifyContent: "space-between",
                         alignItems: "center",
-                        padding: 8,
+                        padding: 16,
                         marginBottom: 8,
                       }}
                     >

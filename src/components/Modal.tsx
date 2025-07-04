@@ -148,6 +148,10 @@ const Modal = ({
         </select>
         <button
           onClick={() => {
+            if (!formData.title || !formData.description || !formData.status) {
+              alert("Please fill all the fields");
+              return;
+            }
             onAdd({
               ...formData,
               deadline: selectedDate ? selectedDate.getTime() : null,
