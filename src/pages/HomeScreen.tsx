@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 import deleteIcon from "../assets/delete-icon.png";
 
 const tasks = [
+  // Created a dummy tasks list to show on UI
   {
     id: 1,
     title: "Buy groceries",
@@ -20,8 +21,10 @@ const tasks = [
 const HomeScreen = () => {
   const [taskList, setTaskList] = useState(tasks);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  // To get the dimension and show responsive layouts in mobile view
   const isMobile = window.innerWidth < 768;
 
+  // Function to formate the timestamp to show remaining time for tasks
   const formatRemainingTime = (ms: number) => {
     if (isNaN(ms)) return "--";
     const totalSeconds = Math.floor(ms / 1000);
@@ -38,15 +41,18 @@ const HomeScreen = () => {
     return `${totalSeconds} sec`;
   };
 
+  // To open the create task modal
   const createTask = () => {
     setIsModalOpen(true);
   };
 
+  // To delete a task
   const onDelete = (task: any) => {
     const updatedList = taskList.filter((item) => item.id !== task.id);
     setTaskList(updatedList);
   };
 
+  // To get details from the form and add the task
   const onAdd = (obj: any) => {
     setTaskList((prev) => [
       ...prev,
@@ -54,6 +60,7 @@ const HomeScreen = () => {
     ]);
   };
 
+  // To mark the task as complete
   const changeStatus = (updatedTask: any) => {
     const updatedList = taskList.map((task) =>
       task.id === updatedTask.id ? { ...task, status: "success" } : task
@@ -61,6 +68,7 @@ const HomeScreen = () => {
     setTaskList(updatedList);
   };
 
+  // To check on mount regarding the tasks status and segragate tasks based on it
   useEffect(() => {
     setTaskList((prev) =>
       prev.map((task) => {
@@ -76,6 +84,7 @@ const HomeScreen = () => {
     );
   }, []);
 
+  // To run an interval with a gap of 1 sec to continuously monitor tasks status and the remaining time
   useEffect(() => {
     const interval = setInterval(() => {
       setTaskList((prev) =>
