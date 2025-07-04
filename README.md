@@ -1,69 +1,63 @@
-# React + TypeScript + Vite
+# Smart ToDo List
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A minimal yet functional ToDo app built with **React 19**, designed to help users manage tasks with deadlines and real-time status tracking.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+###  Built With
 
-## Expanding the ESLint configuration
+- **React 19** – Core UI framework  
+- **TypeScript** – Type-safe development  
+- **Vite** – Lightning-fast build and dev environment  
+- **UUID** – For generating unique task IDs  
+- **React DatePicker** – For selecting task deadlines  
+- **ESLint** – Code linting and formatting  
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+###  Getting Started
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+To run this project locally:
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+1. **Clone the repo**
+   ```bash
+   git clone https://github.com/akshayb03/todo.git
+   cd todo
+   ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+3. **Start the development server**
+   ```bash
+   npm run dev
+   ```
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+---
+
+###  Project Notes
+
+- The app uses a **dummy task list** defined directly inside the component to simulate tasks in the UI.
+- You can **create new tasks** using the "Create Task" button.
+- Tasks are dynamically categorized into:
+  -  **Ongoing** – Active tasks with time remaining
+  -  **Success** – Tasks manually marked as completed
+  -  **Failure** – Tasks that missed their deadline
+- Remaining time is shown in a clean format (e.g., `5 mins remaining`, `2 hrs remaining`) and updates every second.
+- The UI is **responsive**, adapting automatically to mobile and desktop screen sizes.
+
+---
+
+###  Future Enhancements
+
+- [ ] Store tasks in localStorage or connect to a backend
+- [ ] Add filtering and search
+- [ ] Support user authentication and profiles
+
+---
+
+###  Live Demo
+
+> **Vercel:** [https://todo-eight-fawn-90.vercel.app/](https://todo-eight-fawn-90.vercel.app/)  
